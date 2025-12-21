@@ -185,14 +185,14 @@ struct Customer {
 }
 
 fn main() {
-  let mut orders = vec![
-      CustomerOrder::new(Product::Blender, 3, false),
-      CustomerOrder::new(Product::Microwave, 1, true),
-      CustomerOrder::new(Product::Toaster, 2, false),
-      CustomerOrder::new(Product::Microwave, 5, true),
-      CustomerOrder::new(Product::Blender, 1, false),
-      CustomerOrder::new(Product::Fridge, 10, false),
-  ];
+    let mut orders = vec![
+        CustomerOrder::new(Product::Blender, 3, false),
+        CustomerOrder::new(Product::Microwave, 1, true),
+        CustomerOrder::new(Product::Toaster, 2, false),
+        CustomerOrder::new(Product::Microwave, 5, true),
+        CustomerOrder::new(Product::Blender, 1, false),
+        CustomerOrder::new(Product::Fridge, 10, false),
+    ];
 
-  let customer_ids_by_order = [2, 1, 2, 3, 4, 1];
+    let customer_ids_by_order = [2, 1, 2, 3, 4, 1];
 }
