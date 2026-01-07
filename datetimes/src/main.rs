@@ -1,4 +1,4 @@
-use chrono::{prelude::NaiveDateTime, ParseError};
+use chrono::{prelude::*, Duration, ParseError};
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 struct DateTime {
@@ -8,9 +8,9 @@ struct DateTime {
 
 impl DateTime {
     fn new(datetime: &str, description: &str) -> Result<Self, ParseError> {
-        let dt = NaiveDateTime::parse_from_str(datetime, "%Y-%m-%d %H:%M:%S")?;
+        let dt = NaiveDateTime::parse_from_str(datetime, "%Y**%m**%d !! %H:%M:%S %z")?;
         Ok(Self {
-            datetime_stamp: dt,
+            datetime_stamp: dt + Duration::hours(4),
             event_description: description.to_string(),
         })
     }
@@ -26,29 +26,31 @@ impl DateTime {
     }
 
     fn display(&self) {
-        println!("Event Time: {:?}", self.datetime_stamp.to_string());
+        println!(
+            "Event Time: {:?}",
+            self.datetime_stamp.format("%Y-%m-%d %H:%M:%S").to_string(),
+        );
         println!("Event Description: {:?}", self.event_description);
     }
 }
 
 fn main() {
     let events = vec![
-        ("2025-04-19 20:00:00", "Started Rust study session"),
+        (
+            "2025**04**19 !! 16:00:00 -04:00",
+            "Started Rust study session",
+        ),
         ("Err", "Err"),
-        ("2025-04-20 12:05:30", "Made breakfast"),
-        ("2025-04-23 02:10:45", "Went to bed"),
-        ("2025-04-25 13:00:03", "Resumed Rust study"),
+        ("2025**04**20 !! 08:05:30 -04:00", "Made breakfast"),
+        ("2025**04**23 !! 22:10:45 -04:00", "Went to bed"),
+        ("2025**04**25 !! 09:00:03 -04:00", "Resumed Rust study"),
     ];
 
     let total_events = events
         .into_iter()
         .filter_map(|pair| {
             let (datetime, description) = pair;
-            let datetime_and_event = DateTime::new(datetime, description);
-            match datetime_and_event {
-                Ok(result) => Some(result),
-                Err(_) => None,
-            }
+            DateTime::new(datetime, description).ok()
         })
         .collect::<Vec<DateTime>>();
 
